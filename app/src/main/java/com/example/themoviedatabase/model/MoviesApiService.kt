@@ -10,7 +10,7 @@ class MoviesApiService {
     companion object {
 
         const val API_KEY = "2ab170fdb4f3def22f9f0b84408dd2ba"
-        const val BASE_URL = "https://api.themoviedb.org/3"
+        const val BASE_URL = "https://api.themoviedb.org/3/"
     }
 
     private val api = Retrofit.Builder()

@@ -1,6 +1,12 @@
 apply plugin: 'com.android.application'
+
 apply plugin: 'kotlin-android'
+
 apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion 29
@@ -22,10 +28,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
-def retrofitVersion = '2.3.0'
+def retrofitVersion = '2.8.1'
 def rxJavaVersion = '2.1.1'
+def navVersion = '2.3.0-rc01'
+def lifeCycleExtensionVersion = '1.1.1'
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -38,8 +52,13 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
+
+    implementation "android.arch.lifecycle:extensions:$lifeCycleExtensionVersion"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

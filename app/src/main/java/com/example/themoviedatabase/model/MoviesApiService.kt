@@ -20,12 +20,12 @@ class MoviesApiService {
         .build()
         .create(MoviesApi::class.java)
 
-    fun getMovies(): Single<List<Movie>> {
-        return api.getMovies()
+    fun getMoviesFromGenre(genreId: String, page: String): Single<MoviePage> {
+        return api.getMoviesPageFromGenre(genreId, page)
     }
 
-    fun getGenreMovies(): Single<List<Movie>> {
-        return api.getGenreMovies()
+    fun getGenres(): Single<MovieGenre> {
+        return api.getGenres()
     }
 
     fun getMovieDetails(movieId: String): Single<Movie> {

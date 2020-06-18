@@ -2,32 +2,53 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/movies_navigation"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/genresFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.themoviedatabase.view.MainFragment"
-        android:label="MainFragment" >
+        android:id="@+id/genresFragment"
+        android:name="com.example.themoviedatabase.view.GenresFragment"
+        android:label="GenresFragment">
         <action
-            android:id="@+id/action_details_fragment"
-            app:destination="@id/detailsFragment"
+            android:id="@+id/action_movies_fragment"
+            app:destination="@id/moviesFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
 
     <fragment
-        android:id="@+id/detailsFragment"
-        android:name="com.example.themoviedatabase.view.DetailsFragment"
-        android:label="DetailFragment" >
+        android:id="@+id/moviesFragment"
+        android:name="com.example.themoviedatabase.view.MoviesFragment"
+        android:label="MoviesFragment">
         <action
-            android:id="@+id/action_main_fragment"
-            app:destination="@id/mainFragment"
+            android:id="@+id/action_genre_fragment"
+            app:destination="@id/genresFragment"
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim" />
 
-        <argument android:name="movieId"
-            android:defaultValue="0"
-            app:argType="integer"/>
+        <action
+            android:id="@+id/action_movie_details_fragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <argument
+            android:name="genre"
+            app:argType="com.example.themoviedatabase.model.Genre" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/movieDetailsFragment"
+        android:name="com.example.themoviedatabase.view.MovieDetailsFragment"
+        android:label="MovieDetailsFragment">
+        <action
+            android:id="@+id/action_movies_fragment"
+            app:destination="@id/moviesFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+
+        <argument
+            android:name="movie"
+            app:argType="com.example.themoviedatabase.model.Movie" />
     </fragment>
 
 </navigation>

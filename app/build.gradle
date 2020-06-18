@@ -29,6 +29,7 @@ android {
         }
     }
 
+    dataBinding.enabled = true
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -54,6 +55,8 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"

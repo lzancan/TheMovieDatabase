@@ -12,7 +12,8 @@ import io.reactivex.schedulers.Schedulers
 class MoviesViewModel: ViewModel() {
 
     val genres by lazy { MutableLiveData<List<Genre>>() }
-    val movies by lazy { MutableLiveData<List<Movie>>() }
+
+    val genreMoviesReceived = MutableLiveData<Int>()
 
     private val moviesApiService = MoviesApiService()
     private val disposable = CompositeDisposable()
@@ -26,6 +27,9 @@ class MoviesViewModel: ViewModel() {
 
                     override fun onSuccess(movieGenre: MovieGenre) {
                         genres.value = movieGenre.genres
+                        movieGenre.genres?.forEach {
+                            getMoviesFromGenre(it.id, 1)
+                        }
                     }
 
                     override fun onError(e: Throwable) {
@@ -45,7 +49,14 @@ class MoviesViewModel: ViewModel() {
                 .subscribeWith(object : DisposableSingleObserver<MoviePage>() {
 
                     override fun onSuccess(moviePage: MoviePage) {
-                        movies.value = moviePage.results
+                        if(genres.value?.firstOrNull { it.id == genreId }?.moviePages == null){
+                            genres.value?.firstOrNull { it.id == genreId }?.moviePages = ArrayList()
+                        }
+                        val moviePages = genres.value?.firstOrNull { it.id == genreId }?.moviePages
+                        if(moviePages?.none{it.page == moviePage.page} == true) {
+                            moviePages.add((moviePage.page?:1) - 1, moviePage)
+                        }
+                        genreMoviesReceived.value = genreId
                     }
 
                     override fun onError(e: Throwable) {

@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="movie"
-            type="com.example.themoviedatabase.model.Movie"/>
+            type="com.example.themoviedatabase.model.Movie" />
+
         <variable
             name="listener"
-            type="com.example.themoviedatabase.view.MovieClickListener"/>
+            type="com.example.themoviedatabase.view.MovieClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="100dp"
-        android:layout_height="230dp"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
         android:tag="@{movie.movieTitle}"
         android:onClick="@{listener::onClick}">
 
@@ -51,5 +52,4 @@
             tools:ignore="ContentDescription" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

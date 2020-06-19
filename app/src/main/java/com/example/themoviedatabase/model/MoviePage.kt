@@ -11,5 +11,5 @@ class MoviePage(
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("results")
-    val results: List<Movie>?
+    val results: ArrayList<Movie>?
 ) : Serializable

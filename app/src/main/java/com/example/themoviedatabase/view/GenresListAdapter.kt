@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabase.R
 import com.example.themoviedatabase.databinding.ItemGenreBinding
@@ -18,6 +19,13 @@ class GenresListAdapter(private val genresList: ArrayList<Genre>): RecyclerView.
         notifyDataSetChanged()
     }
 
+    fun updateGenreMoviesList(genreId: Int){
+        val index = genresList.indexOfFirst { it.id == genreId }
+        notifyItemChanged(index)
+    }
+
+    private val viewPool = RecyclerView.RecycledViewPool()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenreViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = DataBindingUtil.inflate<ItemGenreBinding>(
@@ -29,11 +37,23 @@ class GenresListAdapter(private val genresList: ArrayList<Genre>): RecyclerView.
         return GenreViewHolder(view)
     }
 
+    override fun getItemId(position: Int): Long {
+        return genresList[position].id.toLong()
+    }
+
     override fun getItemCount() = genresList.size
 
     override fun onBindViewHolder(holder: GenreViewHolder, position: Int) {
-        holder.view.genre = genresList[position]
+        val genre = genresList[position]
+        holder.view.genre = genre
         holder.view.listener = this
+        val childLayoutManager = LinearLayoutManager(holder.view.moviesHorizontalList.context, RecyclerView.HORIZONTAL, false)
+        childLayoutManager.initialPrefetchItemCount = 4
+        holder.view.moviesHorizontalList.apply {
+            layoutManager = childLayoutManager
+            adapter = MoviesGenreListAdapter(genre.moviePages?.firstOrNull()?.results?:ArrayList())
+            setRecycledViewPool(viewPool)
+        }
     }
 
     override fun onClick(v: View) {

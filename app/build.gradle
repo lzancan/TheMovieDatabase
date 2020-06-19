@@ -41,6 +41,7 @@ def retrofitVersion = '2.8.1'
 def rxJavaVersion = '2.1.1'
 def navVersion = '2.3.0-rc01'
 def lifeCycleExtensionVersion = '1.1.1'
+def glideVersion = '4.11.0'
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -55,6 +56,8 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
 
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 

@@ -22,6 +22,22 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions "themoviedatabaseapp"
+
+    productFlavors {
+
+        beta {
+            dimension "themoviedatabaseapp"
+            applicationId "com.example.themoviedatabase.beta"
+            versionCode 1
+            versionName "1.0.$versionCode"
+        }
+
+        prod {
+            dimension "themoviedatabaseapp"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

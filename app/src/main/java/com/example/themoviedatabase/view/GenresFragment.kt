@@ -32,8 +32,6 @@ class GenresFragment : Fragment() {
         activity?.let { activity ->
             viewModel = ViewModelProviders.of(activity).get(MoviesViewModel::class.java)
 
-            viewModel.refresh()
-
             genresList.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)

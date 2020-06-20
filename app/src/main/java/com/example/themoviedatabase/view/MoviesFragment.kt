@@ -28,12 +28,15 @@ class MoviesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         arguments?.let {
             genre = MoviesFragmentArgs.fromBundle(it).genre
         }
-        setHasOptionsMenu(true)
+
         activity?.let { activity ->
             viewModel = ViewModelProviders.of(activity).get(MoviesViewModel::class.java)
+
+            viewModel.toolbarName.value = genre?.name
 
             genre?.let { genre ->
                 viewModel.moviePages.value?.let { moviePages ->

@@ -17,6 +17,8 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     private var prefHelper = SharedPreferencesHelper(application)
     private var refreshTime = 5 * 60 * 1000 * 1000 * 100L
 
+    val toolbarName = MutableLiveData<String>()
+
     val genres by lazy { MutableLiveData<List<Genre>>() }
     val moviePages by lazy { MutableLiveData<HashMap<Int, ArrayList<MoviePage>>>() }
 
@@ -151,7 +153,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     private fun checkCacheDuration() {
         val cachePreference = prefHelper.getCacheDuration()
         try {
-            val cachePreferenceInt = cachePreference?.toInt() ?: 5 * 60
+            val cachePreferenceInt = cachePreference?.toIntOrNull() ?: 5 * 60
             refreshTime = cachePreferenceInt.times(1000 * 1000 * 1000L)
         } catch (e: NumberFormatException) {
             e.printStackTrace()

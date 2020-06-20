@@ -22,8 +22,7 @@
 
     <fragment
         android:id="@+id/moviesFragment"
-        android:name="com.example.themoviedatabase.view.MoviesFragment"
-        android:label="@string/movies">
+        android:name="com.example.themoviedatabase.view.MoviesFragment">
         <action
             android:id="@+id/action_genre_fragment"
             app:destination="@id/genresFragment"
@@ -43,8 +42,7 @@
 
     <fragment
         android:id="@+id/movieDetailsFragment"
-        android:name="com.example.themoviedatabase.view.MovieDetailsFragment"
-        android:label="@string/movie_details">
+        android:name="com.example.themoviedatabase.view.MovieDetailsFragment">
         <action
             android:id="@+id/action_movies_fragment"
             app:destination="@id/moviesFragment"

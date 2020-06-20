@@ -2,6 +2,7 @@ package com.example.themoviedatabase.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -25,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         navController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
+        viewModel.toolbarName.observe(this, Observer {
+            supportActionBar?.title = it
+        })
+
+        viewModel.refresh()
     }
 
     override fun onSupportNavigateUp(): Boolean {

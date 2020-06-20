@@ -29,15 +29,15 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
 
         arguments?.let {
             movie = MovieDetailsFragmentArgs.fromBundle(it).movie
         }
 
-        setHasOptionsMenu(true)
-
         activity?.let { activity ->
             viewModel = ViewModelProviders.of(activity).get(MoviesViewModel::class.java)
+            viewModel.toolbarName.value = movie?.movieTitle
             dataBinding.lifecycleOwner = this
 
             dataBinding.movie = movie

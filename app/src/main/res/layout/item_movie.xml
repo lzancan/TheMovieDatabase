@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="100dp"
         android:layout_height="230dp"
-        android:tag="@{movie.movieTitle}"
+        android:tag="@{movie.movieId}"
         android:onClick="@{listener::onClick}">
 
         <TextView

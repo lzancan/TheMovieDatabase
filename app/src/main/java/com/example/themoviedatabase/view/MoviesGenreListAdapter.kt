@@ -38,7 +38,7 @@ class MoviesGenreListAdapter(private val moviesList: ArrayList<Movie>): Recycler
 
     override fun onClick(v: View) {
         for (movie in moviesList) {
-            if (v.tag == movie.movieTitle) {
+            if (v.tag == movie.movieId) {
                 val action = GenresFragmentDirections.actionMovieDetailsFragment(movie)
                 Navigation.findNavController(v).navigate(action)
             }

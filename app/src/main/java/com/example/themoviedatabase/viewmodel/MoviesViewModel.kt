@@ -21,6 +21,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
 
     val genres by lazy { MutableLiveData<List<Genre>>() }
     val moviePages by lazy { MutableLiveData<HashMap<Int, ArrayList<MoviePage>>>() }
+    val similarMovies by lazy { MutableLiveData<List<Movie>>() }
 
     val genreMoviesReceived = MutableLiveData<MoviePage>()
 
@@ -30,7 +31,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     private val moviesApiService = MoviesApiService()
     private val disposable = CompositeDisposable()
 
-    fun refresh() {
+    fun refreshGenres() {
         checkCacheDuration()
         val updateTime = prefHelper.getUpdateTime()
         if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime) {
@@ -140,6 +141,26 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
             genresRetrieved(list)
         }
         prefHelper.saveUpdateTime(System.nanoTime())
+    }
+
+    fun getSimilarMovies(movieId: Int, page: Int = 1){
+        disposable.add(
+            moviesApiService.getSimilarMoviesFromMovie(movieId.toString(), page.toString())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<MoviePage>() {
+
+                    override fun onSuccess(moviePage: MoviePage) {
+                        similarMovies.value = moviePage.results
+                    }
+
+                    override fun onError(e: Throwable) {
+                        e.printStackTrace()
+                        similarMovies.value = ArrayList()
+                    }
+
+                })
+        )
     }
 
     private fun storeMoviePageInDatabase(moviePage: MoviePage) {

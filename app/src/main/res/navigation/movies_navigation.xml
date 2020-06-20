@@ -49,6 +49,12 @@
             app:enterAnim="@anim/nav_default_pop_enter_anim"
             app:exitAnim="@anim/nav_default_pop_exit_anim" />
 
+        <action
+            android:id="@+id/action_another_movie_details_fragment"
+            app:destination="@id/movieDetailsFragment"
+            app:enterAnim="@anim/nav_default_pop_enter_anim"
+            app:exitAnim="@anim/nav_default_pop_exit_anim" />
+
         <argument
             android:name="movie"
             app:argType="com.example.themoviedatabase.model.Movie" />

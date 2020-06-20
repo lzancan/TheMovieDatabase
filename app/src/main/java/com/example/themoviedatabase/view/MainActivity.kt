@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             supportActionBar?.title = it
         })
 
-        viewModel.refresh()
+        viewModel.refreshGenres()
     }
 
     override fun onSupportNavigateUp(): Boolean {

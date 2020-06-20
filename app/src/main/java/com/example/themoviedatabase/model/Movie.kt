@@ -6,7 +6,7 @@ import java.util.*
 
 data class Movie(
     @SerializedName("id")
-    val movieId: String?,
+    val movieId: Int = 0,
     @SerializedName("title")
     val movieTitle: String?,
     @SerializedName("original_title")

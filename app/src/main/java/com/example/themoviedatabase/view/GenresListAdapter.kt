@@ -62,7 +62,7 @@ class GenresListAdapter(private val genresList: ArrayList<Genre>, private val mo
 
     override fun onClick(v: View) {
         for (genre in genresList) {
-            if (v.tag == genre.name) {
+            if (v.tag == genre.id) {
                 val action = GenresFragmentDirections.actionMoviesFragment(genre)
                 Navigation.findNavController(v).navigate(action)
             }

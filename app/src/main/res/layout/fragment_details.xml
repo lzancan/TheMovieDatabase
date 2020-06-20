@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,20 +10,158 @@
             type="com.example.themoviedatabase.model.Movie" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/dark_gray">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{movie.movieTitle}"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Nome do Filme" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/movieThumbImage"
+                android:layout_width="150dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:imageUrl="@{movie.backdropPath}"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="@{movie.movieTitle}"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/movieThumbImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/movieThumbImage"
+                tools:text="Nome do Filme grande muito grande grande mesmo" />
+
+            <ImageView
+                android:id="@+id/imageAdult"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:paddingStart="0dp"
+                android:paddingEnd="5dp"
+                android:src="@drawable/ic_adult"
+                android:visibility="@{movie.isAdult()}"
+                app:layout_constraintBottom_toBottomOf="@id/textReleaseDate"
+                app:layout_constraintEnd_toStartOf="@id/textReleaseDate"
+                app:layout_constraintStart_toStartOf="@id/textTitle"
+                app:layout_constraintTop_toTopOf="@id/textReleaseDate"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/textReleaseDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@{movie.releaseDate}"
+                android:textColor="@color/light_gray"
+                app:layout_constraintStart_toEndOf="@id/imageAdult"
+                app:layout_constraintTop_toBottomOf="@id/textTitle"
+                tools:text="2020" />
+
+            <TextView
+                android:id="@+id/textStar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:layout_marginTop="10dp"
+                android:drawableEnd="@drawable/ic_star"
+                android:gravity="center_vertical"
+                android:textColor="@color/light_gray"
+                app:floatTextFormatted="@{movie.voteAverage}"
+                app:layout_constraintStart_toStartOf="@id/imageAdult"
+                app:layout_constraintTop_toBottomOf="@id/textReleaseDate"
+                tools:text="3.6"/>
+
+            <TextView
+                android:id="@+id/textVoteCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/light_gray"
+                android:text="@{String.format(@string/vote_count_string, movie.voteCount.toString())}"
+                app:layout_constraintStart_toEndOf="@id/textStar"
+                app:layout_constraintTop_toTopOf="@id/textStar"
+                app:layout_constraintBottom_toBottomOf="@id/textStar"
+                tools:text="(100)"/>
+
+            <TextView
+                android:id="@+id/textPopularity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/light_gray"
+                app:floatTextFormatted="@{movie.popularity}"
+                android:drawableEnd="@drawable/ic_tomato"
+                app:layout_constraintStart_toStartOf="@id/textStar"
+                app:layout_constraintTop_toBottomOf="@id/textStar"
+                tools:text="90"/>
+
+            <TextView
+                android:id="@+id/textLanguage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:textColor="@color/light_gray"
+                android:text="@{movie.originalLanguage}"
+                android:drawableEnd="@drawable/ic_conversation"
+                app:layout_constraintStart_toStartOf="@id/textPopularity"
+                app:layout_constraintTop_toBottomOf="@id/textPopularity"
+                tools:text="en"/>
+
+            <TextView
+                android:id="@+id/textOverview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="20dp"
+                android:text="@{movie.movieOverview}"
+                android:textColor="@color/light_gray"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@id/textSimilar"
+                app:layout_constraintTop_toBottomOf="@id/movieThumbImage"
+                tools:text="Bla bla bla..." />
+
+            <TextView
+                android:id="@+id/textSimilar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{String.format(@string/similar_movie_to, movie.movieTitle)}"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintTop_toBottomOf="@id/textOverview"
+                tools:text="Semelhantes a Coração de dragão blablabla blablabla" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/similarList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/textSimilar" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

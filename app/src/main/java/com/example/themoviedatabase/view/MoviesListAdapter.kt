@@ -38,8 +38,12 @@ class MoviesListAdapter(private val moviesList: ArrayList<Movie>): RecyclerView.
 
     override fun onClick(v: View) {
         for (movie in moviesList) {
-            if (v.tag == movie.movieTitle) {
-                val action = MoviesFragmentDirections.actionMovieDetailsFragment(movie)
+            if (v.tag == movie.movieId) {
+                val action = if(Navigation.findNavController(v).currentDestination?.id == R.id.movieDetailsFragment){
+                    MovieDetailsFragmentDirections.actionAnotherMovieDetailsFragment(movie)
+                } else {
+                    MoviesFragmentDirections.actionMovieDetailsFragment(movie)
+                }
                 Navigation.findNavController(v).navigate(action)
             }
         }

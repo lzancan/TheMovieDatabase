@@ -33,7 +33,7 @@
             <TextView
                 android:id="@+id/textName"
                 android:onClick="@{listener::onClick}"
-                android:tag="@{genre.name}"
+                android:tag="@{genre.id}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -51,7 +51,7 @@
             <ImageView
                 android:id="@+id/img_arrow"
                 android:onClick="@{listener::onClick}"
-                android:tag="@{genre.name}"
+                android:tag="@{genre.id}"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"

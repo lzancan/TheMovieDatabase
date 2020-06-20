@@ -3,11 +3,14 @@ package com.example.themoviedatabase.util
 import android.content.Context
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.themoviedatabase.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Util {
 
@@ -46,4 +49,13 @@ object Util {
             start()
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("floatTextFormatted")
+    fun TextView.formatFloatText(number: Float?){
+        number?.let{
+            text = String.format("%.2f", it)
+        }
+    }
+
 }

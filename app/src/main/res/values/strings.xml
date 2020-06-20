@@ -6,4 +6,7 @@
     <string name="movie_genders">Gêneros de filmes</string>
     <string name="movies">Filmes</string>
     <string name="movie_details">Detalhes do filme</string>
+    <string name="similar_movie_to">Semelhantes a %1$s</string>
+    <string name="vote_count_string">(%1$s)</string>
+    <string name="popularity_percent_string">%1$s %%</string>
 </resources>

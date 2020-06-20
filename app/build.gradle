@@ -78,6 +78,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     implementation "androidx.room:room-runtime:$roomVersion"
+    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
 
@@ -94,6 +95,8 @@ dependencies {
     implementation "androidx.preference:preference-ktx:1.1.1"
 
     implementation "android.arch.lifecycle:extensions:$lifeCycleExtensionVersion"
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

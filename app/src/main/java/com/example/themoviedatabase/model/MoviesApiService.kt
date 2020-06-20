@@ -28,11 +28,11 @@ class MoviesApiService {
         return api.getGenres()
     }
 
-    fun getSimilarMoviesFromMovie(movieId: String, page: String): Single<MoviePage>{
+    fun getSimilarMoviesFromMovie(movieId: String, page: String): Single<MoviePage> {
         return api.getSimilarMoviesPageFromMovie(movieId, page)
     }
 
-    fun getMovieDetails(movieId: String): Single<Movie> {
-        return api.getMovieDetails(movieId)
+    fun getVideosFromMovie(movieId: String): Single<MovieVideos> {
+        return api.getVideosFromMovie(movieId)
     }
 }

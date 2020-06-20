@@ -19,6 +19,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtubePlayerView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone"
+                app:autoPlay="false"
+                app:showFullScreenButton="true"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/movieThumbImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <ImageView
                 android:id="@+id/movieThumbImage"
                 android:layout_width="150dp"
@@ -28,7 +40,7 @@
                 android:imageUrl="@{movie.backdropPath}"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/youtubePlayerView"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -152,6 +164,7 @@
                 android:text="@{String.format(@string/similar_movie_to, movie.movieTitle)}"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/textOverview"
                 tools:text="Semelhantes a Coração de dragão blablabla blablabla" />
 
@@ -159,6 +172,7 @@
                 android:id="@+id/similarList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/textSimilar" />
 

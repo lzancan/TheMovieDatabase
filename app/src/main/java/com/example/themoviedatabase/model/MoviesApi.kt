@@ -13,10 +13,10 @@ interface MoviesApi {
     @GET("movie/{movieId}/similar?api_key=${API_KEY}")
     fun getSimilarMoviesPageFromMovie(@Path("movieId") movieId: String, @Query("page") page: String): Single<MoviePage>
 
+    @GET("movie/{movieId}/videos?api_key=${API_KEY}")
+    fun getVideosFromMovie(@Path("movieId") movieId: String): Single<MovieVideos>
+
     @GET("genre/movie/list?api_key=${API_KEY}&language=en-US")
     fun getGenres(): Single<MovieGenre>
-
-    @GET("movie/{movieId}?api_key=${API_KEY}&language=en-US")
-    fun getMovieDetails(@Path("movieId") movieId: String): Single<Movie>
 
 }

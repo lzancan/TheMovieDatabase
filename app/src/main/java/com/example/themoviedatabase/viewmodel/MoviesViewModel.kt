@@ -22,6 +22,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     val genres by lazy { MutableLiveData<List<Genre>>() }
     val moviePages by lazy { MutableLiveData<HashMap<Int, ArrayList<MoviePage>>>() }
     val similarMovies by lazy { MutableLiveData<List<Movie>>() }
+    val videosFromMovie by lazy { MutableLiveData<List<MovieVideo>>() }
 
     val genreMoviesReceived = MutableLiveData<MoviePage>()
 
@@ -41,7 +42,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    fun refreshBypassCache(){
+    fun refreshBypassCache() {
         getGenresFromApi()
     }
 
@@ -105,7 +106,8 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
 
     private fun getMoviesFromGenre(genreId: Int, page: Int) {
         launch {
-            val moviesPage = MoviesDatabase(getApplication()).moviesDao().getMoviesPageFromGenre(genreId, page)
+            val moviesPage =
+                MoviesDatabase(getApplication()).moviesDao().getMoviesPageFromGenre(genreId, page)
             moviesPage?.let {
                 moviesPageRetrieved(moviesPage)
             } ?: getMoviesFromGenreFromApi(genreId, page)
@@ -143,7 +145,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
         prefHelper.saveUpdateTime(System.nanoTime())
     }
 
-    fun getSimilarMovies(movieId: Int, page: Int = 1){
+    fun getSimilarMovies(movieId: Int, page: Int = 1) {
         disposable.add(
             moviesApiService.getSimilarMoviesFromMovie(movieId.toString(), page.toString())
                 .subscribeOn(Schedulers.newThread())
@@ -157,6 +159,26 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
                     override fun onError(e: Throwable) {
                         e.printStackTrace()
                         similarMovies.value = ArrayList()
+                    }
+
+                })
+        )
+    }
+
+    fun getVideosFromMovie(movieId: Int) {
+        disposable.add(
+            moviesApiService.getVideosFromMovie(movieId.toString())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object : DisposableSingleObserver<MovieVideos>() {
+
+                    override fun onSuccess(movieVideos: MovieVideos) {
+                        videosFromMovie.value = movieVideos.movieVideos
+                    }
+
+                    override fun onError(e: Throwable) {
+                        e.printStackTrace()
+                        videosFromMovie.value = ArrayList()
                     }
 
                 })

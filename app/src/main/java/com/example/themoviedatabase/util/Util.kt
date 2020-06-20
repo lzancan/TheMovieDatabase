@@ -2,6 +2,7 @@ package com.example.themoviedatabase.util
 
 import android.content.Context
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -9,8 +10,7 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.themoviedatabase.R
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 object Util {
 
@@ -56,6 +56,16 @@ object Util {
         number?.let{
             text = String.format("%.2f", it)
         }
+    }
+
+    fun View.animateOnShow() {
+        alpha = 0f
+        visibility = View.VISIBLE
+
+        animate()
+            .alpha(1f)
+            .setDuration(1000L)
+            .setListener(null)
     }
 
 }

@@ -29,7 +29,13 @@ android {
         }
     }
 
-    dataBinding.enabled = true
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures{
+        dataBinding = true
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -37,11 +43,12 @@ android {
     }
 }
 
-def retrofitVersion = '2.8.1'
+def retrofitVersion = '2.9.0'
 def rxJavaVersion = '2.1.1'
 def navVersion = '2.3.0-rc01'
 def lifeCycleExtensionVersion = '1.1.1'
 def glideVersion = '4.11.0'
+def roomVersion = '2.2.5'
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -54,6 +61,10 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
+    implementation "androidx.room:room-runtime:$roomVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+    implementation "androidx.room:room-ktx:$roomVersion"
+
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
 
@@ -63,6 +74,8 @@ dependencies {
 
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
+
+    implementation "androidx.preference:preference-ktx:1.1.1"
 
     implementation "android.arch.lifecycle:extensions:$lifeCycleExtensionVersion"
 

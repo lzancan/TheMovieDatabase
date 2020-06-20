@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabase.R
 import com.example.themoviedatabase.databinding.ItemGenreBinding
 import com.example.themoviedatabase.model.Genre
+import com.example.themoviedatabase.model.MoviePage
 
-class GenresListAdapter(private val genresList: ArrayList<Genre>): RecyclerView.Adapter<GenresListAdapter.GenreViewHolder>(), GenreClickListener {
+class GenresListAdapter(private val genresList: ArrayList<Genre>, private val moviePageList: ArrayList<MoviePage>): RecyclerView.Adapter<GenresListAdapter.GenreViewHolder>(), GenreClickListener {
 
     fun updateGenresList(newGenreList: List<Genre>) {
         genresList.clear()
@@ -19,8 +20,9 @@ class GenresListAdapter(private val genresList: ArrayList<Genre>): RecyclerView.
         notifyDataSetChanged()
     }
 
-    fun updateGenreMoviesList(genreId: Int){
-        val index = genresList.indexOfFirst { it.id == genreId }
+    fun addMoviePageList(moviePage: MoviePage){
+        val index = genresList.indexOfFirst { it.id == moviePage.genreId }
+        moviePageList.add(moviePage)
         notifyItemChanged(index)
     }
 
@@ -47,11 +49,13 @@ class GenresListAdapter(private val genresList: ArrayList<Genre>): RecyclerView.
         val genre = genresList[position]
         holder.view.genre = genre
         holder.view.listener = this
+        val moviesList = if(moviePageList.any{ it.genreId == genre.id }){moviePageList.first { it.page == 1 && it.genreId == genre.id }.results?:ArrayList()}else{ArrayList()}
+        holder.view.hasMovies = moviesList.isNotEmpty()
         val childLayoutManager = LinearLayoutManager(holder.view.moviesHorizontalList.context, RecyclerView.HORIZONTAL, false)
         childLayoutManager.initialPrefetchItemCount = 4
         holder.view.moviesHorizontalList.apply {
             layoutManager = childLayoutManager
-            adapter = MoviesGenreListAdapter(genre.moviePages?.firstOrNull()?.results?:ArrayList())
+            adapter = MoviesGenreListAdapter(moviesList)
             setRecycledViewPool(viewPool)
         }
     }

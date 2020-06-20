@@ -10,6 +10,10 @@
             type="com.example.themoviedatabase.model.Genre" />
 
         <variable
+            name="hasMovies"
+            type="Boolean"/>
+
+        <variable
             name="listener"
             type="com.example.themoviedatabase.view.GenreClickListener" />
     </data>
@@ -76,7 +80,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textName"
-                android:visibility="@{genre.moviePages.empty}"/>
+                android:visibility="@{!hasMovies}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

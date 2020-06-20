@@ -29,34 +29,38 @@ class GenresFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
+        activity?.let { activity ->
+            viewModel = ViewModelProviders.of(activity).get(MoviesViewModel::class.java)
 
-        viewModel.refresh()
+            viewModel.refresh()
 
-        genresList.apply {
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            setHasFixedSize(true)
-            adapter = listAdapter
+            genresList.apply {
+                layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                setHasFixedSize(true)
+                adapter = listAdapter
+            }
+
+            refreshLayout.setOnRefreshListener {
+                genresList.visibility = View.GONE
+                listError.visibility = View.GONE
+                progressBar.visibility = View.VISIBLE
+                viewModel.refreshBypassCache()
+                refreshLayout.isRefreshing = false
+            }
+
+            observeViewModel()
         }
-
-        refreshLayout.setOnRefreshListener {
-            genresList.visibility = View.GONE
-            listError.visibility = View.GONE
-            progressBar.visibility = View.VISIBLE
-            viewModel.refreshBypassCache()
-            refreshLayout.isRefreshing = false
-        }
-
-        observeViewModel()
     }
 
     private fun observeViewModel(){
         viewModel.genres.observe(viewLifecycleOwner, Observer { list ->
-            listAdapter.updateGenresList(list)
+            if(list.isNotEmpty()) {
+                genresList.visibility = View.VISIBLE
+                listAdapter.updateGenresList(list)
+            }
         })
 
         viewModel.genreMoviesReceived.observe(viewLifecycleOwner, Observer {
-            Log.d("exc19062020", "genre movies received - $it")
             listAdapter.addMoviePageList(it)
         })
 
@@ -70,7 +74,6 @@ class GenresFragment : Fragment() {
                 progressBar.visibility = if(it) View.VISIBLE else View.GONE
                 if(it){
                     listError.visibility = View.GONE
-                    genresList.visibility = View.VISIBLE
                 }
             }
         })

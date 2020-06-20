@@ -70,7 +70,6 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
         loading.value = true
         launch {
             val genres = MoviesDatabase(getApplication()).moviesDao().getAllGenres()
-            Log.d("exc19062020", "genresretrievedfromdatabase")
             genresRetrieved(genres)
         }
     }
@@ -83,7 +82,6 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
                 .subscribeWith(object : DisposableSingleObserver<MovieGenre>() {
 
                     override fun onSuccess(movieGenre: MovieGenre) {
-                        Log.d("exc19062020", "genresretrievedfromApi")
                         movieGenre.genres?.let { genresList ->
                             storeGenresInDatabase(genresList)
                             genresList.forEach { genre ->
@@ -106,7 +104,6 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val moviesPage = MoviesDatabase(getApplication()).moviesDao().getMoviesPageFromGenre(genreId, page)
             moviesPage?.let {
-                Log.d("exc19062020", "movies from genre $genreId retrieved from database")
                 moviesPageRetrieved(moviesPage)
             } ?: getMoviesFromGenreFromApi(genreId, page)
         }
@@ -120,7 +117,6 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
                 .subscribeWith(object : DisposableSingleObserver<MoviePage>() {
 
                     override fun onSuccess(moviePage: MoviePage) {
-                        Log.d("exc19062020", "movies from genre $genreId retrieved from Api")
                         moviePage.genreId = genreId
                         storeMoviePageInDatabase(moviePage)
                     }

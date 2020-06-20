@@ -3,4 +3,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="genresListError">Erro ao obter os gêneros.</string>
+    <string name="movie_genders">Gêneros de filmes</string>
+    <string name="movies">Filmes</string>
+    <string name="movie_details">Detalhes do filme</string>
 </resources>

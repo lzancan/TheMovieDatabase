@@ -36,9 +36,12 @@ class MovieDetailsFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
-        viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
+        activity?.let { activity ->
+            viewModel = ViewModelProviders.of(activity).get(MoviesViewModel::class.java)
+            dataBinding.lifecycleOwner = this
 
-        dataBinding.movie = movie
+            dataBinding.movie = movie
+        }
 
     }
 }

@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/genresFragment"
         android:name="com.example.themoviedatabase.view.GenresFragment"
-        android:label="GenresFragment">
+        android:label="@string/movie_genders">
         <action
             android:id="@+id/action_movies_fragment"
             app:destination="@id/moviesFragment"
@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/moviesFragment"
         android:name="com.example.themoviedatabase.view.MoviesFragment"
-        android:label="MoviesFragment">
+        android:label="@string/movies">
         <action
             android:id="@+id/action_genre_fragment"
             app:destination="@id/genresFragment"
@@ -44,7 +44,7 @@
     <fragment
         android:id="@+id/movieDetailsFragment"
         android:name="com.example.themoviedatabase.view.MovieDetailsFragment"
-        android:label="MovieDetailsFragment">
+        android:label="@string/movie_details">
         <action
             android:id="@+id/action_movies_fragment"
             app:destination="@id/moviesFragment"

@@ -32,22 +32,22 @@ class MoviesFragment : Fragment() {
             genre = MoviesFragmentArgs.fromBundle(it).genre
         }
         setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
+        activity?.let { activity ->
+            viewModel = ViewModelProviders.of(activity).get(MoviesViewModel::class.java)
 
-        genre?.let { genre ->
-            viewModel.moviePages.value?.let { moviePages ->
-                listAdapter =
-                    MoviesListAdapter(moviePages[genre.id]?.firstOrNull{it.genreId == genre.id}?.results?: ArrayList ())
+            genre?.let { genre ->
+                viewModel.moviePages.value?.let { moviePages ->
+                    listAdapter = MoviesListAdapter(
+                        moviePages[genre.id]?.firstOrNull { it.genreId == genre.id }?.results
+                            ?: ArrayList()
+                    )
 
-                moviesList.apply {
-                    layoutManager = GridLayoutManager(context, 3)
-                    adapter = listAdapter
+                    moviesList.apply {
+                        layoutManager = GridLayoutManager(context, 3)
+                        adapter = listAdapter
+                    }
                 }
             }
-
-            /*
-                viewModel.getMoviesFromGenreFromApi(it.id, 1)
-            */
         }
     }
 }

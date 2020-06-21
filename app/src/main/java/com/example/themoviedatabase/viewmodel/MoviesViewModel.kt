@@ -3,10 +3,8 @@ package com.example.themoviedatabase.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.themoviedatabase.di.AppModule
-import com.example.themoviedatabase.di.CONTEXT_APP
-import com.example.themoviedatabase.di.DaggerViewModelComponent
-import com.example.themoviedatabase.di.TypeOfContext
+import com.example.themoviedatabase.di.*
+import com.example.themoviedatabase.di.ContextModule.CONTEXT_APP
 import com.example.themoviedatabase.model.*
 import com.example.themoviedatabase.util.SharedPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +21,11 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     lateinit var moviesApiService: MoviesApiService
 
     @Inject
-    @field:TypeOfContext(CONTEXT_APP)
+    @field:ContextModule.TypeOfContext(CONTEXT_APP)
+    lateinit var moviesDatabase: MoviesDatabase
+
+    @Inject
+    @field:ContextModule.TypeOfContext(CONTEXT_APP)
     lateinit var prefHelper: SharedPreferencesHelper
 
     private var refreshTime = 5 * 60 * 1000 * 1000 * 100L
@@ -96,12 +98,12 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     private fun getGenresFromDatabase() {
         loading.value = true
         launch {
-            val genres = MoviesDatabase(getApplication()).moviesDao().getAllGenres()
+            val genres = moviesDatabase.moviesDao().getAllGenres()
             genresRetrieved(genres)
         }
     }
 
-    private fun getGenresFromApi() {
+    fun getGenresFromApi() {
         disposable.add(
             moviesApiService.getGenres()
                 .subscribeOn(Schedulers.newThread())
@@ -110,10 +112,8 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
 
                     override fun onSuccess(movieGenre: MovieGenre) {
                         movieGenre.genres?.let { genresList ->
+                            genresRetrieved(genresList)
                             storeGenresInDatabase(genresList)
-                            genresList.forEach { genre ->
-                                getMoviesFromGenreFromApi(genre.id, 1)
-                            }
                         }
                     }
 
@@ -127,10 +127,9 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
         )
     }
 
-    private fun getMoviesFromGenre(genreId: Int, page: Int) {
+    fun getMoviesFromGenre(genreId: Int, page: Int) {
         launch {
-            val moviesPage =
-                MoviesDatabase(getApplication()).moviesDao().getMoviesPageFromGenre(genreId, page)
+            val moviesPage = moviesDatabase.moviesDao().getMoviesPageFromGenre(genreId, page)
             moviesPage?.let {
                 moviesPageRetrieved(moviesPage)
             } ?: getMoviesFromGenreFromApi(genreId, page)
@@ -146,6 +145,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
 
                     override fun onSuccess(moviePage: MoviePage) {
                         moviePage.genreId = genreId
+                        moviesPageRetrieved(moviePage)
                         storeMoviePageInDatabase(moviePage)
                     }
 
@@ -159,11 +159,10 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
 
     private fun storeGenresInDatabase(list: List<Genre>) {
         launch {
-            val dao = MoviesDatabase(getApplication()).moviesDao()
+            val dao = moviesDatabase.moviesDao()
             dao.deleteAllGenres()
             dao.deleteAllMoviePages()
             dao.insertAll(*list.toTypedArray())
-            genresRetrieved(list)
         }
         prefHelper.saveUpdateTime(System.nanoTime())
     }
@@ -210,9 +209,8 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
 
     private fun storeMoviePageInDatabase(moviePage: MoviePage) {
         launch {
-            val dao = MoviesDatabase(getApplication()).moviesDao()
+            val dao = moviesDatabase.moviesDao()
             dao.insertMoviePage(moviePage)
-            moviesPageRetrieved(moviePage)
         }
     }
 

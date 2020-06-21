@@ -4,26 +4,27 @@ import android.app.Application
 import androidx.appcompat.app.AppCompatActivity
 import com.example.themoviedatabase.di.ContextModule.CONTEXT_ACTIVITY
 import com.example.themoviedatabase.di.ContextModule.CONTEXT_APP
-import com.example.themoviedatabase.util.SharedPreferencesHelper
+import com.example.themoviedatabase.model.MoviesDatabase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
+
 @Module
-open class PrefsModule {
+open class RoomModule {
 
     @Provides
     @Singleton
     @ContextModule.TypeOfContext(CONTEXT_APP)
-    open fun provideSharedPreferences(app: Application): SharedPreferencesHelper {
-        return SharedPreferencesHelper(app)
+    open fun provideDatabase(app: Application): MoviesDatabase {
+        return MoviesDatabase(app)
     }
 
     @Provides
     @Singleton
     @ContextModule.TypeOfContext(CONTEXT_ACTIVITY)
-    fun provideActivitySharedPreferences(activity: AppCompatActivity): SharedPreferencesHelper {
-        return SharedPreferencesHelper(activity)
+    fun provideActivityDatabase(activity: AppCompatActivity): MoviesDatabase {
+        return MoviesDatabase(activity.applicationContext)
     }
+
 }

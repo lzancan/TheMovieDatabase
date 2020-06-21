@@ -5,7 +5,7 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApiModule::class, PrefsModule::class, AppModule::class])
+@Component(modules = [ApiModule::class, PrefsModule::class, AppModule::class, RoomModule::class])
 interface ViewModelComponent {
 
     fun inject(viewModel: MoviesViewModel)

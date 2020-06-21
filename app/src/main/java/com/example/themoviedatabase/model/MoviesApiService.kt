@@ -1,24 +1,22 @@
 package com.example.themoviedatabase.model
 
+import com.example.themoviedatabase.di.DaggerApiComponent
 import io.reactivex.Single
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 class MoviesApiService {
 
     companion object {
 
         const val API_KEY = "2ab170fdb4f3def22f9f0b84408dd2ba"
-        const val BASE_URL = "https://api.themoviedb.org/3/"
     }
 
-    private val api = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
-        .create(MoviesApi::class.java)
+    @Inject
+    lateinit var api: MoviesApi
+
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
 
     fun getMoviesFromGenre(genreId: String, page: String): Single<MoviePage> {
         return api.getMoviesPageFromGenre(genreId, page)

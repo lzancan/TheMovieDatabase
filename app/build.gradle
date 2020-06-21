@@ -60,11 +60,14 @@ android {
 }
 
 def retrofitVersion = '2.9.0'
-def rxJavaVersion = '2.1.1'
+def rxJavaVersion = '2.2.19'
+def rxAndroidVersion = '2.1.1'
 def navVersion = '2.3.0-rc01'
 def lifeCycleExtensionVersion = '1.1.1'
 def glideVersion = '4.11.0'
 def roomVersion = '2.2.5'
+def daggerVersion = '2.24'
+def mockitoVersion = '2.11.0'
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -90,11 +93,20 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
-    implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
 
     implementation "androidx.preference:preference-ktx:1.1.1"
 
     implementation "android.arch.lifecycle:extensions:$lifeCycleExtensionVersion"
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    testImplementation "org.mockito:mockito-inline:$mockitoVersion"
+    testImplementation "android.arch.core:core-testing:1.1.1"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 

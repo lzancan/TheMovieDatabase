@@ -3,6 +3,10 @@ package com.example.themoviedatabase.viewmodel
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.example.themoviedatabase.di.AppModule
+import com.example.themoviedatabase.di.CONTEXT_APP
+import com.example.themoviedatabase.di.DaggerViewModelComponent
+import com.example.themoviedatabase.di.TypeOfContext
 import com.example.themoviedatabase.model.*
 import com.example.themoviedatabase.util.SharedPreferencesHelper
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -11,10 +15,17 @@ import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
+import javax.inject.Inject
 
 class MoviesViewModel(application: Application) : BaseViewModel(application) {
 
-    private var prefHelper = SharedPreferencesHelper(application)
+    @Inject
+    lateinit var moviesApiService: MoviesApiService
+
+    @Inject
+    @field:TypeOfContext(CONTEXT_APP)
+    lateinit var prefHelper: SharedPreferencesHelper
+
     private var refreshTime = 5 * 60 * 1000 * 1000 * 100L
 
     val toolbarName = MutableLiveData<String>()
@@ -29,10 +40,21 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     val downLoadError = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
 
-    private val moviesApiService = MoviesApiService()
     private val disposable = CompositeDisposable()
 
+    private var injected = false
+
+    fun inject() {
+        if (!injected) {
+            DaggerViewModelComponent.builder()
+                .appModule(AppModule(getApplication()))
+                .build()
+                .inject(this)
+        }
+    }
+
     fun refreshGenres() {
+        inject()
         checkCacheDuration()
         val updateTime = prefHelper.getUpdateTime()
         if (updateTime != null && updateTime != 0L && System.nanoTime() - updateTime < refreshTime) {
@@ -43,6 +65,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     }
 
     fun refreshBypassCache() {
+        inject()
         getGenresFromApi()
     }
 

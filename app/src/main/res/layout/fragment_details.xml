@@ -67,7 +67,7 @@
                 android:paddingStart="0dp"
                 android:paddingEnd="5dp"
                 android:src="@drawable/ic_adult"
-                android:visibility="@{movie.isAdult()}"
+                app:visibility="@{movie.isAdult()}"
                 app:layout_constraintBottom_toBottomOf="@id/textReleaseDate"
                 app:layout_constraintEnd_toStartOf="@id/textReleaseDate"
                 app:layout_constraintStart_toStartOf="@id/textTitle"

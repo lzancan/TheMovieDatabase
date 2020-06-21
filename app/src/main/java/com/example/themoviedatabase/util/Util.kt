@@ -8,8 +8,10 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.themoviedatabase.R
+import com.example.themoviedatabase.view.DotProgressBar
 
 
 object Util {
@@ -23,6 +25,7 @@ object Util {
         Glide.with(context)
             .setDefaultRequestOptions(options)
             .load(uri)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(this)
     }
 
@@ -35,7 +38,7 @@ object Util {
     }
 
     @JvmStatic
-    @BindingAdapter("android:visibility")
+    @BindingAdapter("visibility")
     fun View.setVisibility(visible: Boolean?){
         visible?.let {
             visibility = if(it){View.VISIBLE}else{View.GONE}

@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/movieThumbImage"
-            android:layout_width="90dp"
-            android:layout_height="130dp"
+            android:layout_width="95dp"
+            android:layout_height="135dp"
             android:layout_margin="8dp"
             android:imageUrl="@{movie.backdropPath}"
             android:scaleType="centerCrop"

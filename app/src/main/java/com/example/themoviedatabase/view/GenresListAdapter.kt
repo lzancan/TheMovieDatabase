@@ -51,6 +51,7 @@ class GenresListAdapter(private val genresList: ArrayList<Genre>, private val mo
         holder.view.listener = this
         val moviesList = if(moviePageList.any{ it.genreId == genre.id }){moviePageList.first { it.page == 1 && it.genreId == genre.id }.results?:ArrayList()}else{ArrayList()}
         holder.view.hasMovies = moviesList.isNotEmpty()
+        if(moviesList.isEmpty()){holder.view.dotProgressBar.startAnimation()} else{holder.view.dotProgressBar.stopAnimation()}
         val childLayoutManager = LinearLayoutManager(holder.view.moviesHorizontalList.context, RecyclerView.HORIZONTAL, false)
         holder.view.moviesHorizontalList.apply {
             layoutManager = childLayoutManager

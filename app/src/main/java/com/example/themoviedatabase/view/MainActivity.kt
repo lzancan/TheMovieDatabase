@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.themoviedatabase.R
 import com.example.themoviedatabase.viewmodel.MoviesViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,13 +22,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setSupportActionBar(toolbar)
+
         viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
 
         navController = Navigation.findNavController(this, R.id.fragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
 
         viewModel.toolbarName.observe(this, Observer {
-            supportActionBar?.title = it
+            toolbar?.title = it
         })
 
         viewModel.refreshGenres()

@@ -13,42 +13,41 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="100dp"
-        android:layout_height="230dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:tag="@{movie.movieId}"
         android:onClick="@{listener::onClick}">
 
-        <TextView
-            android:id="@+id/movieName"
-            android:layout_width="match_parent"
-            android:layout_height="25dp"
-            android:background="@android:color/darker_gray"
-            android:layout_marginHorizontal="5dp"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:paddingHorizontal="10dp"
-            android:text="@{movie.movieTitle}"
-            android:textSize="16sp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/movieThumbImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Filme" />
-
         <ImageView
             android:id="@+id/movieThumbImage"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
+            android:layout_width="90dp"
+            android:layout_height="130dp"
+            android:layout_margin="8dp"
             android:imageUrl="@{movie.backdropPath}"
             android:scaleType="centerCrop"
-            app:layout_constraintTop_toBottomOf="@id/movieName"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/movieName"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/movieName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:paddingHorizontal="5dp"
+            android:text="@{movie.movieTitle}"
+            android:textSize="12sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/movieThumbImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Filme" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -52,7 +52,6 @@ class GenresListAdapter(private val genresList: ArrayList<Genre>, private val mo
         val moviesList = if(moviePageList.any{ it.genreId == genre.id }){moviePageList.first { it.page == 1 && it.genreId == genre.id }.results?:ArrayList()}else{ArrayList()}
         holder.view.hasMovies = moviesList.isNotEmpty()
         val childLayoutManager = LinearLayoutManager(holder.view.moviesHorizontalList.context, RecyclerView.HORIZONTAL, false)
-        childLayoutManager.initialPrefetchItemCount = 4
         holder.view.moviesHorizontalList.apply {
             layoutManager = childLayoutManager
             adapter = MoviesGenreListAdapter(moviesList)

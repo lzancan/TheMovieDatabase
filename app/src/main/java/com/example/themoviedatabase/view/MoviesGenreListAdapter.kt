@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabase.R
-import com.example.themoviedatabase.databinding.ItemMovieGenreBinding
+import com.example.themoviedatabase.databinding.ItemMovieBinding
 import com.example.themoviedatabase.model.Movie
 
 class MoviesGenreListAdapter(private val moviesList: ArrayList<Movie>): RecyclerView.Adapter<MoviesGenreListAdapter.MovieGenreViewHolder>(), MovieClickListener {
@@ -20,9 +20,9 @@ class MoviesGenreListAdapter(private val moviesList: ArrayList<Movie>): Recycler
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieGenreViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = DataBindingUtil.inflate<ItemMovieGenreBinding>(
+        val view = DataBindingUtil.inflate<ItemMovieBinding>(
             inflater,
-            R.layout.item_movie_genre,
+            R.layout.item_movie,
             parent,
             false
         )
@@ -45,5 +45,5 @@ class MoviesGenreListAdapter(private val moviesList: ArrayList<Movie>): Recycler
         }
     }
 
-    class MovieGenreViewHolder(var view: ItemMovieGenreBinding) : RecyclerView.ViewHolder(view.root)
+    class MovieGenreViewHolder(var view: ItemMovieBinding) : RecyclerView.ViewHolder(view.root)
 }

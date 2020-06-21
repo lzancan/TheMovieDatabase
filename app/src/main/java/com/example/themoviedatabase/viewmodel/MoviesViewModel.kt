@@ -37,6 +37,8 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
     val similarMovies by lazy { MutableLiveData<List<Movie>>() }
     val videosFromMovie by lazy { MutableLiveData<List<MovieVideo>>() }
 
+    var isRequestingMovies = false
+
     val genreMoviesReceived = MutableLiveData<MoviePage>()
 
     val downLoadError = MutableLiveData<Boolean>()
@@ -136,7 +138,7 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
         }
     }
 
-    fun getMoviesFromGenreFromApi(genreId: Int, page: Int) {
+    fun getMoviesFromGenreFromApi(genreId: Int, page: Int, storeInDatabase: Boolean = true) {
         disposable.add(
             moviesApiService.getMoviesFromGenre(genreId.toString(), page.toString())
                 .subscribeOn(Schedulers.newThread())
@@ -146,7 +148,9 @@ class MoviesViewModel(application: Application) : BaseViewModel(application) {
                     override fun onSuccess(moviePage: MoviePage) {
                         moviePage.genreId = genreId
                         moviesPageRetrieved(moviePage)
-                        storeMoviePageInDatabase(moviePage)
+                        if(storeInDatabase) {
+                            storeMoviePageInDatabase(moviePage)
+                        }
                     }
 
                     override fun onError(e: Throwable) {

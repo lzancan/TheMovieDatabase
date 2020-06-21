@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabase.R
 import com.example.themoviedatabase.databinding.ItemMovieBinding
 import com.example.themoviedatabase.model.Movie
+import com.example.themoviedatabase.model.MoviePage
 
 class MoviesListAdapter(private val moviesList: ArrayList<Movie>): RecyclerView.Adapter<MoviesListAdapter.MovieViewHolder>(), MovieClickListener {
 
@@ -16,6 +17,10 @@ class MoviesListAdapter(private val moviesList: ArrayList<Movie>): RecyclerView.
         moviesList.clear()
         moviesList.addAll(newMoviesList)
         notifyDataSetChanged()
+    }
+
+    fun appendPageToMoviesList(moviesListToAdd: List<Movie>) {
+        moviesList.addAll(moviesListToAdd)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {

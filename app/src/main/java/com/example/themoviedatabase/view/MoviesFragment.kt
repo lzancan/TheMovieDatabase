@@ -1,16 +1,19 @@
 package com.example.themoviedatabase.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.themoviedatabase.R
 import com.example.themoviedatabase.model.Genre
 import com.example.themoviedatabase.viewmodel.MoviesViewModel
 import kotlinx.android.synthetic.main.fragment_movies.*
+
 
 class MoviesFragment : Fragment() {
 
@@ -49,8 +52,35 @@ class MoviesFragment : Fragment() {
                         layoutManager = GridLayoutManager(context, 3)
                         adapter = listAdapter
                     }
+                    moviesList.addOnScrollListener(object : EndlessRecyclerOnScrollListener() {
+                        override fun onLoadMore() {
+                            if (!viewModel.isRequestingMovies) {
+                                viewModel.isRequestingMovies = true
+                                viewModel.getMoviesFromGenreFromApi(
+                                    genre.id,
+                                    (viewModel.moviePages.value!![genre.id]?.maxBy { it.page }?.page
+                                        ?: 1) + 1,
+                                    false
+                                )
+                            }
+                        }
+                    })
                 }
+
+                observeViewModel()
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.isRequestingMovies = false
+    }
+
+    private fun observeViewModel() {
+        viewModel.genreMoviesReceived.observe(viewLifecycleOwner, Observer {
+            listAdapter?.appendPageToMoviesList(it.results ?: ArrayList())
+            viewModel.isRequestingMovies = false
+        })
     }
 }

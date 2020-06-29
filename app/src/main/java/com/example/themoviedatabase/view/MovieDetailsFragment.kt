@@ -16,7 +16,6 @@ import com.example.themoviedatabase.util.Util.animateOnShow
 import com.example.themoviedatabase.viewmodel.MoviesViewModel
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import kotlinx.android.synthetic.main.fragment_details.*
 
 
 class MovieDetailsFragment : Fragment() {
@@ -52,7 +51,7 @@ class MovieDetailsFragment : Fragment() {
 
                 dataBinding.movie = movie
 
-                similarList.apply {
+                dataBinding.similarList.apply {
                     layoutManager = GridLayoutManager(context, 3)
                     adapter = listAdapter
                 }
@@ -60,7 +59,7 @@ class MovieDetailsFragment : Fragment() {
                 viewModel.getVideosFromMovie(movie.movieId)
                 viewModel.getSimilarMovies(movie.movieId)
 
-                lifecycle.addObserver(youtubePlayerView)
+                lifecycle.addObserver(dataBinding.youtubePlayerView)
 
                 observeViewModel()
             }
@@ -70,23 +69,23 @@ class MovieDetailsFragment : Fragment() {
     private fun observeViewModel(){
         viewModel.similarMovies.observe(viewLifecycleOwner, Observer {
             if(it.isEmpty()){
-                similarList.visibility = View.GONE
-                textSimilar.visibility = View.GONE
+                dataBinding.similarList.visibility = View.GONE
+                dataBinding.textSimilar.visibility = View.GONE
             } else {
                 listAdapter.updateMoviesList(it)
-                similarList.visibility = View.VISIBLE
-                textSimilar.visibility = View.VISIBLE
+                dataBinding.similarList.visibility = View.VISIBLE
+                dataBinding.textSimilar.visibility = View.VISIBLE
             }
         })
         viewModel.videosFromMovie.observe(viewLifecycleOwner, Observer { movieVideosList ->
             if (movieVideosList.isEmpty()) {
-                youtubePlayerView.visibility = View.GONE
+                dataBinding.youtubePlayerView.visibility = View.GONE
             } else {
-                youtubePlayerView.addYouTubePlayerListener(object :
+                dataBinding.youtubePlayerView.addYouTubePlayerListener(object :
                     AbstractYouTubePlayerListener() {
                     override fun onReady(youTubePlayer: YouTubePlayer) {
                         movieVideosList.firstOrNull{it.videoSite == "YouTube"}?.videoKey?.let { videoId ->
-                            youtubePlayerView.animateOnShow()
+                            dataBinding.youtubePlayerView.animateOnShow()
                             youTubePlayer.cueVideo(videoId, 0f)
                         }
                     }

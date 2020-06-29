@@ -1,29 +1,31 @@
 package com.example.themoviedatabase.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.themoviedatabase.R
+import com.example.themoviedatabase.databinding.FragmentGenresBinding
 import com.example.themoviedatabase.viewmodel.MoviesViewModel
-import kotlinx.android.synthetic.main.fragment_genres.*
 
 class GenresFragment : Fragment() {
 
     private lateinit var viewModel: MoviesViewModel
+    private lateinit var dataBinding: FragmentGenresBinding
     private val listAdapter = GenresListAdapter(arrayListOf(), arrayListOf()).apply { hasStableIds() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_genres, container, false)
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_genres, container, false)
+        return dataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -32,18 +34,18 @@ class GenresFragment : Fragment() {
         activity?.let { activity ->
             viewModel = ViewModelProviders.of(activity).get(MoviesViewModel::class.java)
 
-            genresList.apply {
+            dataBinding.genresList.apply {
                 layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
                 setHasFixedSize(true)
                 adapter = listAdapter
             }
 
-            refreshLayout.setOnRefreshListener {
-                genresList.visibility = View.GONE
-                listError.visibility = View.GONE
-                progressBar.visibility = View.VISIBLE
+            dataBinding.refreshLayout.setOnRefreshListener {
+                dataBinding.genresList.visibility = View.GONE
+                dataBinding.listError.visibility = View.GONE
+                dataBinding.progressBar.visibility = View.VISIBLE
                 viewModel.refreshBypassCache()
-                refreshLayout.isRefreshing = false
+                dataBinding.refreshLayout.isRefreshing = false
             }
 
             observeViewModel()
@@ -53,7 +55,7 @@ class GenresFragment : Fragment() {
     private fun observeViewModel(){
         viewModel.genres.observe(viewLifecycleOwner, Observer { list ->
             if(list.isNotEmpty()) {
-                genresList.visibility = View.VISIBLE
+                dataBinding.genresList.visibility = View.VISIBLE
                 listAdapter.updateGenresList(list)
             }
         })
@@ -64,14 +66,14 @@ class GenresFragment : Fragment() {
 
         viewModel.downLoadError.observe(viewLifecycleOwner, Observer { isError ->
             isError?.let{
-                listError.visibility = if(it) View.VISIBLE else View.GONE
+                dataBinding.listError.visibility = if(it) View.VISIBLE else View.GONE
             }
         })
         viewModel.loading.observe(viewLifecycleOwner, Observer { isLoading ->
             isLoading?.let {
-                progressBar.visibility = if(it) View.VISIBLE else View.GONE
+                dataBinding.progressBar.visibility = if(it) View.VISIBLE else View.GONE
                 if(it){
-                    listError.visibility = View.GONE
+                    dataBinding.listError.visibility = View.GONE
                 }
             }
         })

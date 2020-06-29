@@ -2,27 +2,30 @@ package com.example.themoviedatabase.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.example.themoviedatabase.R
+import com.example.themoviedatabase.databinding.ActivityMainBinding
 import com.example.themoviedatabase.viewmodel.MoviesViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
     private lateinit var viewModel: MoviesViewModel
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        setSupportActionBar(toolbar)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        setSupportActionBar(binding.toolbar)
 
         viewModel = ViewModelProviders.of(this).get(MoviesViewModel::class.java)
 
@@ -30,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
 
         viewModel.toolbarName.observe(this, Observer {
-            toolbar?.title = it
+            binding.toolbar.title = it
         })
 
         viewModel.refreshGenres()
